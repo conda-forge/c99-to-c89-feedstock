@@ -1,27 +1,29 @@
 About c99-to-c89
 ================
 
-Home: https://github.com/libav/c99-to-c89/
+Home: https://github.com/libav/c99-to-c89
 
-Package license: Apache v2
+Package license: Apache 2.0
 
 Feedstock license: BSD 3-Clause
 
-Summary: Tool to convert C99 code to MSVC-compatible C89
+Summary: Tool to convert C99 code to MSVC-compatible C89, with many Anaconda Distribution fixes
 
 
 
 Current build status
 ====================
 
-Linux: ![](https://cdn.rawgit.com/conda-forge/conda-smithy/90845bba35bec53edac7a16638aa4d77217a3713/conda_smithy/static/disabled.svg)
-OSX: ![](https://cdn.rawgit.com/conda-forge/conda-smithy/90845bba35bec53edac7a16638aa4d77217a3713/conda_smithy/static/disabled.svg)
-Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/conda-forge/c99-to-c89-feedstock?svg=True)](https://ci.appveyor.com/project/conda-forge/c99-to-c89-feedstock/branch/master)
+[![Linux](https://img.shields.io/circleci/project/github/conda-forge/c99-to-c89-feedstock/master.svg?label=Linux)](https://circleci.com/gh/conda-forge/c99-to-c89-feedstock)
+[![OSX](https://img.shields.io/travis/conda-forge/c99-to-c89-feedstock/master.svg?label=macOS)](https://travis-ci.org/conda-forge/c99-to-c89-feedstock)
+[![Windows](https://img.shields.io/appveyor/ci/conda-forge/c99-to-c89-feedstock/master.svg?label=Windows)](https://ci.appveyor.com/project/conda-forge/c99-to-c89-feedstock/branch/master)
 
 Current release info
 ====================
-Version: [![Anaconda-Server Badge](https://anaconda.org/conda-forge/c99-to-c89/badges/version.svg)](https://anaconda.org/conda-forge/c99-to-c89)
-Downloads: [![Anaconda-Server Badge](https://anaconda.org/conda-forge/c99-to-c89/badges/downloads.svg)](https://anaconda.org/conda-forge/c99-to-c89)
+
+| Name | Downloads | Version | Platforms |
+| --- | --- | --- | --- |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-c99--to--c89-green.svg)](https://anaconda.org/conda-forge/c99-to-c89) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/c99-to-c89.svg)](https://anaconda.org/conda-forge/c99-to-c89) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/c99-to-c89.svg)](https://anaconda.org/conda-forge/c99-to-c89) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/c99-to-c89.svg)](https://anaconda.org/conda-forge/c99-to-c89) |
 
 Installing c99-to-c89
 =====================
@@ -66,6 +68,7 @@ To manage the continuous integration and simplify feedstock maintenance
 Using the ``conda-forge.yml`` within this repository, it is possible to re-render all of
 this feedstock's supporting files (e.g. the CI configuration files) with ``conda smithy rerender``.
 
+For more information please check the [conda-forge documentation](https://conda-forge.org/docs/).
 
 Terminology
 ===========
