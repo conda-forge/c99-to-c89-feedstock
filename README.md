@@ -14,9 +14,9 @@ Summary: Tool to convert C99 code to MSVC-compatible C89, with many Anaconda Dis
 Current build status
 ====================
 
-[![Linux](https://img.shields.io/circleci/project/github/conda-forge/c99-to-c89-feedstock/master.svg?label=Linux)](https://circleci.com/gh/conda-forge/c99-to-c89-feedstock)
-[![OSX](https://img.shields.io/travis/conda-forge/c99-to-c89-feedstock/master.svg?label=macOS)](https://travis-ci.org/conda-forge/c99-to-c89-feedstock)
 [![Windows](https://img.shields.io/appveyor/ci/conda-forge/c99-to-c89-feedstock/master.svg?label=Windows)](https://ci.appveyor.com/project/conda-forge/c99-to-c89-feedstock/branch/master)
+![Linux disabled](https://img.shields.io/badge/linux-disabled-lightgrey.svg)
+![OSX disabled](https://img.shields.io/badge/OSX-disabled-lightgrey.svg)
 
 Current release info
 ====================
