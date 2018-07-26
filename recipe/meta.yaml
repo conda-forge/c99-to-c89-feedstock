@@ -1,30 +1,75 @@
-{% set version = "1.0.3" %}
+{% set version = "1.0.4" %}
 
 package:
   name: c99-to-c89
   version: {{ version }}
 
 source:
-  fn: c99-to-c89-{{ version }}.zip  # [win]
-  url: https://github.com/libav/c99-to-c89/releases/download/release-1.0.3/c99-to-c89-{{ version }}.zip  # [win]
-  md5: d58bc9741f258841aa3196a1b4155e51
+  url: https://github.com/AnacondaRecipes/c99-to-c89/archive/release-{{ version }}.tar.gz
+  sha256: 1df2ec430d34e9034d162969fe1a12cee50fa67cacdcc60d7b57b6c45b576467
+
 
 build:
   number: 0
   skip: True  # [unix]
-  
+  skip: true  # [win and vc!=14]
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - msinttypes  # [win and vc==9]
+    - m2-sed
+    - m2-base
+    - m2-make
+    - m2-filesystem
+    - m2-p7zip
+    - m2w64-tools-git
+
 test:
+  requires:
+    - {{ compiler('c') }}
+  files:
+    - tests
   commands:
-    # Would be good to run this - but can't because there are no version or help
-    # commands and without the proper input arguments it always returns exit code 1
-    - if not exist %PREFIX%\\Library\\bin\\c99wrap.exe exit 1  # [win]
-    - if not exist %PREFIX%\\Library\\bin\\c99conv.exe exit 1  # [win]
+    - echo on
+    - echo cd %CD%
+    - set C99_TO_C89_CONV_DEBUG_LEVEL=0
+    - set C99_TO_C89_WRAP_DEBUG_LEVEL=0
+    - set C99_TO_C89_WRAP_SAVE_TEMPS=1
+    - set C99_TO_C89_WRAP_NO_LINE_DIRECTIVES=1
+    # Simple but large test:
+    - c99wrap cl /nologo -DDLL_EXPORT -DHAVE_CONFIG_H -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_DEPRECATE -Dlzma_EXPORTS -I%CD%\tests /DWIN32 /D_WINDOWS /Fo%TEMP%\check.c.obj -c %CD%\tests\check.c
+    - echo /nologo -DDLL_EXPORT -DHAVE_CONFIG_H -D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_DEPRECATE -Dlzma_EXPORTS -I%CD%\tests /DWIN32 /D_WINDOWS /Fo%TEMP%\check.c.obj -c %CD%\tests\check.c > response-file
+    # Same test but via a response-file:
+    - c99wrap cl @response-file
+    # Small tests from now on so can safely enable a lot of debug output:
+    - set C99_TO_C89_CONV_DEBUG_LEVEL=2
+    - set C99_TO_C89_WRAP_DEBUG_LEVEL=2
+    # Test fix for broken handling of empty cond-statement in loops when moving the decl out of the init-expression:
+    # for (int i = 0 ; ; ++i) {} => int i = 0 ; ; for ( ; i++) {}
+    - c99wrap cl /Folzma_encoder_optimal_normal.c.obj -c %CD%\tests\lzma_encoder_optimal_normal.c
+    # Simple case I broke when attempting to fix cursor position management bug tested below:
+    - c99wrap cl /Focheck-2.c.obj -c %CD%\tests\check-2.c
+    # The cl pre-processor does not remove line continuations and the cl compiler cannot handle these:
+    - c99wrap cl /Fotest-macro-line-continuation.o -c %CD%\tests\test-macro-line-continuation.c
+    - c99wrap cl /Fotest-pragma-comment.o -c %CD%\tests\test-pragma-comment.c
+    # Next problem, cursor position management bug. "else if" => "elseif" and all other spaces vanish
+    # after insertion text to an earlier position on the same line, fixed by maintaining relative spacing.
+    # .. this test must be the last one due it exiting in both cases (though we could probably make it a
+    # c99wrap test instead so failure to compile would cause a natural exit).
+    - c99conv -ms %CD%\tests\stream_encoder.c.obj_preprocessed.c stream_encoder.c.converted.c
+    - findstr elseif stream_encoder.c.converted.c && (exit /b 1) || (exit /b 0)
 
 about:
-  home: https://github.com/libav/c99-to-c89/
-  license: Apache v2
-  summary: 'Tool to convert C99 code to MSVC-compatible C89'
+  home: https://github.com/libav/c99-to-c89
+  license: Apache 2.0
+  license_family: Apache
+  license_file: LICENSE
+  summary: 'Tool to convert C99 code to MSVC-compatible C89, with many Anaconda Distribution fixes'
+  dev_url: https://github.com/libav/c99-to-c89
 
 extra:
   recipe-maintainers:
+    - mingwandroid
+    - ocefpaf
     - patricksnape
